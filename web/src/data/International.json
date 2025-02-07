@@ -1,0 +1,12 @@
+[
+    {
+        "id": 30,
+        "name": "Chicken Picatta",
+        "price": "40"
+      },
+      {
+        "id": 31,
+        "name": "Beef Picatta",
+        "price": "45"
+      }
+]
