@@ -1,57 +1,34 @@
-import fakeData from "../data/MainDishes.json";
-import { useMemo } from "react";
-import { Column, useTable } from "react-table";
+import { useEffect, useState } from "react";
 import { Meal } from "../types/Meal";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { getMenuItems } from "../services/MenuService";
 
 export default function MainDishes() {
-    const data = useMemo(() => fakeData, []);
-    const columns = useMemo<Column<Meal>[]>(() => [
-    {
-        Header: "ID",
-        accessor: "id",
-    },
-    {
-        Header: "Name",
-        accessor: "name",
-    },
-    {
-        Header: "Price",
-        accessor: "price",
-    },
-], []);
-
-const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable({columns, data});
+    const [data, setData] = useState<Meal[]>([]);
+        useEffect(() => {
+            getMenuItems('Main').then(
+                items => {setData(items)}
+            )
+        })
   return (
-    <div className="MainDishes">
-        <div className="container">
-            <Table {...getTableProps()}>
+         <Table >
                 <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>
-                                    {column.render("Header")}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
+                    <tr>
+                        <th>Name</th>
+                        <th style={{textAlign: "right"}}>Price</th>
+                    </tr>
                 </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => (
-                                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                                ))}
+                {data.map((data) => {
+                    return (
+                        <tbody key={data._id}>
+                            <tr key={data._id}>
+                                <td>{data.name}</td>
+                                <td style={{textAlign: "right"}}>{data.price}</td>
                             </tr>
-                        )
-                    })}
-                </tbody>
+                        </tbody>
+                    )
+                })}
             </Table>
-        </div>
-    </div>
   );
 };

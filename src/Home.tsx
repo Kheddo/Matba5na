@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
     <Container>
-      <h1 className='page-header'>Matba5na</h1>
+      <h1 className='page-header'>Matbaخna</h1>
       <img src={logo} className="App-logo" alt="react" />
       <Menu/>
     </Container>
